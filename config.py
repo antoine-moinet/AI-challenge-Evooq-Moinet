@@ -1,6 +1,6 @@
 import os
 
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = 
 EMBEDDING_MODEL = "text-embedding-3-small"
 CHAT_MODEL = "gpt-4o"
 CHUNK_SIZE = 500
