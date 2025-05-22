@@ -48,7 +48,7 @@ python query.py --query "<your_question>" --chat_model <chat_model_name> --top_k
 - <chat_model_name>: the model to query (must be from openai. default is gpt-4)
 - <number_of_chunks_to_use>: how many similar chunks to retrieve for context (default value is 5)
 
-note that the embedding model specified at ingestion (or the default if not specified) will be stored in embedding_model.txt and retrieved when query.py is run (similarity should be done with the same embedding model)
+note that the embedding model and the token limit specified at ingestion (or the defaults if not specified) will be stored in embedding_model.txt and emb_model_token_limit.txt and retrieved when query.py is run (similarity should be checked with the same embedding model)
 
 
 ## Assumptions
