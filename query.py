@@ -8,8 +8,8 @@ openai.api_key = OPENAI_API_KEY
 
 def ask_question(query,chat_model,top_k):
     index, all_chunks = load_vector_store()
-    USER_EMB_MODEL = get_stored_embedding_model()
-    indices, _, relevance = search_index(index, query, USER_EMB_MODEL, top_k)
+    user_emb_model = get_stored_embedding_model()
+    indices, _, relevance = search_index(index, query, user_emb_model, top_k)
     context = "\n".join([all_chunks[i] for i in indices])
     prompt = f"""
 You are a helpful assistant. Use the context below to answer the question.
