@@ -8,13 +8,11 @@ import tiktoken
 from tqdm import tqdm
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from config import OPENAI_API_KEY, VECTOR_DB_PATH, VECTOR_DB_PATH2, USER_EMB_PATH, TOKEN_LIMIT
+from config import OPENAI_API_KEY, VECTOR_DB_PATH, VECTOR_DB_PATH2, USER_EMB_PATH
 
 openai.api_key = OPENAI_API_KEY
 
-
-
-def get_embeddings_batch(texts, embedding_model):
+def get_embeddings_batch(texts, embedding_model, token_limit):
     enc = tiktoken.encoding_for_model(embedding_model)
     batches = []
     current_batch = []
@@ -26,7 +24,7 @@ def get_embeddings_batch(texts, embedding_model):
         tokens = len(enc.encode(t))
         if tokens > TOKEN_LIMIT:
             continue  # skip overly long individual entries
-        if current_tokens + tokens > TOKEN_LIMIT:
+        if current_tokens + tokens > token_limit:
             batches.append(current_batch)
             current_batch = []
             current_tokens = 0
@@ -43,8 +41,8 @@ def get_embeddings_batch(texts, embedding_model):
 
     return all_embeddings
 
-def build_vector_store(chunks,emb_model):
-    embeddings = get_embeddings_batch(chunks,emb_model)
+def build_vector_store(chunks,emb_model,token_limit):
+    embeddings = get_embeddings_batch(chunks,emb_model,token_limit)
     dimension = len(embeddings[0])
     index = faiss.IndexFlatL2(dimension)
     index.add(np.array(embeddings))
@@ -66,8 +64,7 @@ def load_vector_store():
         raise FileNotFoundError(f"Index file not found: {VECTOR_DB_PATH}")
     index = faiss.read_index(VECTOR_DB_PATH)
     if not index:
-            raise ValueError("Index file is empty.")
-    
+        raise ValueError("Index file is empty.")
     if not os.path.exists(VECTOR_DB_PATH2):
         raise FileNotFoundError(f"Compressed text file not found: {VECTOR_DB_PATH2}")
     with open(VECTOR_DB_PATH2, "rb") as f:
