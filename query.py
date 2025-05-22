@@ -7,10 +7,24 @@ from config import OPENAI_API_KEY, CHAT_MODEL, SIMILAR_CHUNKS
 openai.api_key = OPENAI_API_KEY
 
 def ask_question(query,chat_model,top_k):
+    """
+    Ask a question to the LLM, find relevant chunks of texts, and returns an answer.
+
+    Args:
+        query (str): natural language query string
+        chat_model (str): name of the LLM model to use
+        top_k (int): number of text chunks to retrieve from index based on similarity with query
+
+    Returns:
+        tuple containing:
+            LLM response
+            relevance: distance of the closest chunk of text to the query, mapped to a 0-100% scale
+            context: top_k chunks of text 
+    """
     index, all_chunks = load_vector_store()
     user_emb_model = get_stored_embedding_model()
     indices, _, relevance = search_index(index, query, user_emb_model, top_k)
-    context = "\n".join([all_chunks[i] for i in indices])
+    context = "\n\n".join([all_chunks[i] for i in indices])
     prompt = f"""
 You are a helpful assistant. Use the context below to answer the question.
 

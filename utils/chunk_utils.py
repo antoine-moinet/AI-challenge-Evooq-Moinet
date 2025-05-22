@@ -3,9 +3,6 @@ import os
 import nltk
 import tiktoken  
 
-#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-#nltk.download('punkt_tab')
-
 try:
     nltk.data.find("tokenizers/punkt_tab")
 except LookupError:
@@ -14,6 +11,10 @@ except LookupError:
 from nltk.tokenize import sent_tokenize 
 
 def chunk_text(text, chunk_size, overlap):
+    """
+    Extract sentences from the text (str) and returns a list of text chunks 
+    with the provided chunk size (number of words) and overlap (number of sentences)
+    """
     sentences = sent_tokenize(text)
     chunks = []
     chunk = []
@@ -30,6 +31,10 @@ def chunk_text(text, chunk_size, overlap):
     return chunks
 
 def batch_chunks(chunks,embedding_model,token_limit):
+    """
+    Takes a list of chunks and returns a list of batches of chunks
+    such that each batch does not exceed the token limit of the embedding model
+    """
     enc = tiktoken.encoding_for_model(embedding_model)
     batches = []
     current_batch = []

@@ -6,6 +6,13 @@ from utils.chunk_utils import chunk_text
 from utils.vector_store import build_vector_store
 
 def ingest_folder(folder_path, embedding_model, token_limit, chunk_size, chunk_overlap):
+    """
+    Reads and chunks the PDFs according to the overlap and chunk size provided,
+    embeds the chunks according to the embedding model and token limit provided, 
+    stores a vector index of the embeddings for later comparison with the query,
+    stores a pickle file of the chunks to later retrieve top k similar chunks,
+    and stores the embedding model and token limit in text files
+    """
     pdf_files = [f for f in os.listdir(folder_path) if f.endswith(".pdf")]
     if not pdf_files:
         raise ValueError(f"No PDF files found in folder: {folder_path}")
