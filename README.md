@@ -13,15 +13,29 @@ pip install -r requirements.txt
 '''
 
 ## Usage
+### Provide API key:
+'''bash
+export OPENAI_API_KEY=sk-...
+'''
+
+'''cmd
+set OPENAI_API_KEY=sk-...
+'''
+
+'''powershell
+$env:OPENAI_API_KEY="sk-..."
+'''$
+
 ### Ingest PDF Folder:
 '''bash
-python ingest.py --pdf_folder <path_to_pdf_folder> --chunk_size <chunk_size> --chunk_overlap <overlap_size> --embedding_model <emb_model>
+python ingest.py --pdf_folder <path_to_pdf_folder> --chunk_size <chunk_size> --chunk_overlap <overlap_size> --embedding_model <emb_model> --token_limit <token_limit>
 '''
 
 - <path_to_pdf_folder>: directory containing the PDFs e.g., ./pdf_folder (the folder should be placed in the Workspace)
 - <chunk_size>: number of words per chunk (default value is 500)
-- <overlap_size>: number of words to overlap between chunks (default value is 50)
+- <overlap_size>: number of sentences to overlap between chunks (default value is 3)
 - <emb_model>: the model used for embeddings (default is text-embedding-3-small)
+- <token_limit>: the max number of tokens in a single embedding request (default is 8192 for text-embedding-3-small)
 
 
 ### Ask a Question:
@@ -33,7 +47,7 @@ python query.py --query "<your_question>" --chat_model <chat_model_name> --top_k
 - <chat_model_name>: the model to query (default is gpt-4o)
 - <number_of_chunks_to_use>: how many similar chunks to retrieve for context (default value is 5)
 
-note that the embedding model specified at ingestion (or the default if not specified) will be stored in embedding_model.txt and used for subsequent queries (to search for relevant chunks of text in the pdfs based on similarity)
+note that the embedding model specified at ingestion (or the default if not specified) will be stored in embedding_model.txt and retrieved when query.py is run (similarity should be done with the same embedding model)
 
 
 ## Assumptions

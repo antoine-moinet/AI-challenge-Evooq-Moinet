@@ -3,7 +3,12 @@ import os
 import nltk 
 
 #sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-nltk.download('punkt_tab')
+#nltk.download('punkt_tab')
+
+try:
+    nltk.data.find("tokenizers/punkt_tab")
+except LookupError:
+    nltk.download("punkt_tab")
 
 from nltk.tokenize import sent_tokenize 
 
