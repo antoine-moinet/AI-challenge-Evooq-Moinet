@@ -8,28 +8,28 @@ A command-line tool that lets users query information contained in a folder of P
 - OpenAI API key
 
 ## Installation
-'''bash
+```bash
 pip install -r requirements.txt
-'''
+```
 
 ## Usage
 ### Provide API key:
-'''bash
+```bash
 export OPENAI_API_KEY=sk-...
-'''
-
-'''cmd
+```
+or
+```cmd
 set OPENAI_API_KEY=sk-...
-'''
-
-'''powershell
+```
+or
+```powershell
 $env:OPENAI_API_KEY="sk-..."
-'''$
+```
 
 ### Ingest PDF Folder:
-'''bash
+```bash
 python ingest.py --pdf_folder <path_to_pdf_folder> --chunk_size <chunk_size> --chunk_overlap <overlap_size> --embedding_model <emb_model> --token_limit <token_limit>
-'''
+```
 
 - <path_to_pdf_folder>: directory containing the PDFs e.g., ./pdf_folder (the folder should be placed in the Workspace)
 - <chunk_size>: number of words per chunk (default value is 500)
@@ -39,9 +39,9 @@ python ingest.py --pdf_folder <path_to_pdf_folder> --chunk_size <chunk_size> --c
 
 
 ### Ask a Question:
-'''bash
+```bash
 python query.py --query "<your_question>" --chat_model <chat_model_name> --top_k <number_of_chunks_to_use>
-'''
+```
 
 - <your_question>: the user's natural language question
 - <chat_model_name>: the model to query (default is gpt-4o)
