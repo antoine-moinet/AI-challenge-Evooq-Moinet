@@ -1,6 +1,6 @@
 import argparse
 import openai  
-from utils.vector_store import load_vector_store, search_index, get_stored_embedding_model
+from utils.vector_store import load_vector_store, search_index, get_stored_embedding_model, get_stored_token_limit
 from config import OPENAI_API_KEY, CHAT_MODEL, SIMILAR_CHUNKS
 
 
@@ -23,7 +23,8 @@ def ask_question(query,chat_model,top_k):
     """
     index, all_chunks = load_vector_store()
     user_emb_model = get_stored_embedding_model()
-    indices, _, relevance = search_index(index, query, user_emb_model, top_k)
+    user_token_limit = get_stored_token_limit()
+    indices, _, relevance = search_index(index, query, user_emb_model, user_token_limit, top_k)
     context = "\n\n".join([all_chunks[i] for i in indices])
     prompt = f"""
 You are a helpful assistant. Use the context below to answer the question.

@@ -49,8 +49,12 @@ def build_vector_store(chunks,emb_model,token_limit):
     os.makedirs(os.path.dirname(VECTOR_DB_PATH2), exist_ok=True)
     with open(VECTOR_DB_PATH2, "wb") as f:
         pickle.dump(chunks, f)    
+    os.makedirs(os.path.dirname(USER_EMB_PATH), exist_ok=True)
     with open(USER_EMB_PATH, "w") as f:
         f.write(emb_model)
+    os.makedirs(os.path.dirname(USER_TOK_LIM_PATH), exist_ok=True)
+    with open(USER_TOK_LIM_PATH, "w") as f:
+        f.write(str(token_limit))
     return 
 
 def get_embedding(text,emb_model,token_limit):
@@ -95,15 +99,15 @@ def get_stored_embedding_model():
     
 def get_stored_token_limit():
     """
-    Reads and returns the saved embedding model token limit provided by the user at ingestion
+    Reads and returns the saved token limit provided by the user at ingestion
     """
     if not os.path.exists(USER_TOK_LIM_PATH):
         raise FileNotFoundError(f"User token limit file not found: {USER_TOK_LIM_PATH}")
     with open(USER_TOK_LIM_PATH, "r") as f:
-        model = f.read().strip()
-        if not model:
+        tl = int(f.read())
+        if not tl:
             raise ValueError("User token limit file is empty.")
-        return model
+        return tl
 
 def search_index(index, query, emb_model, token_limit, k):
     """
