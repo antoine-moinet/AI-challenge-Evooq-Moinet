@@ -4,41 +4,20 @@ import os
 import sys
 import openai
 import pickle
-import tiktoken 
 from tqdm import tqdm
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from config import OPENAI_API_KEY, VECTOR_DB_PATH, VECTOR_DB_PATH2, USER_EMB_PATH
+from utils.chunk_utils import batch_chunks
 
 openai.api_key = OPENAI_API_KEY
 
-def get_embeddings_batch(texts, embedding_model, token_limit):
-    enc = tiktoken.encoding_for_model(embedding_model)
-    batches = []
-    current_batch = []
-    current_tokens = 0
-
-    for t in texts:
-        if not isinstance(t, str) or not t.strip():
-            continue
-        tokens = len(enc.encode(t))
-        if tokens > TOKEN_LIMIT:
-            continue  # skip overly long individual entries
-        if current_tokens + tokens > token_limit:
-            batches.append(current_batch)
-            current_batch = []
-            current_tokens = 0
-        current_batch.append(t)
-        current_tokens += tokens
-
-    if current_batch:
-        batches.append(current_batch)
-
+def get_embeddings_batch(chunks,embedding_model,token_limit):
+    batches = batch_chunks(chunks,embedding_model,token_limit)
     all_embeddings = []
     for batch in tqdm(batches, desc="Embedding chunks"):
         response = openai.embeddings.create(input=batch, model=embedding_model)
         all_embeddings.extend([np.array(res.embedding, dtype='float32') for res in response.data])
-
     return all_embeddings
 
 def build_vector_store(chunks,emb_model,token_limit):
