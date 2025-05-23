@@ -44,10 +44,13 @@ class FAISSIndexer:
                 raise ValueError("pkl file is empty.")
         return index, all_chunks
     
-    def search_index(self, index, query_emb, k):
+    def search_index(self, query_emb, k):
         """
         the query must be previously embedded into query_emb.
-        this function returns the k closest embeddings in the index and their distances from the query
+        this function finds the k closest embeddings in the index 
+        and returns the corresponding chunks as a context
         """
+        index, chunks = self.load_index()
         D, I = index.search(np.array([query_emb]), k)
-        return I[0], D[0]
+        context = "\n\n".join([chunks[i] for i in I[0]])
+        return context
