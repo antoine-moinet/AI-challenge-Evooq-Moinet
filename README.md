@@ -14,18 +14,18 @@ pip install -r requirements.txt
 
 ## Usage
 ### Provide API key:
+bash
 ```bash
 export OPENAI_API_KEY=sk-...
 ```
-for bash or
+cmd
 ```cmd
 set OPENAI_API_KEY=sk-...
 ```
-for cmd or
+powershell
 ```powershell
 $env:OPENAI_API_KEY="sk-..."
 ```
-for powershell
 
 ### Ingest PDF Folder:
 ```bash
