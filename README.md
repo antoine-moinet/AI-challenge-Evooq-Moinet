@@ -32,7 +32,7 @@ $env:OPENAI_API_KEY="sk-..."
 python ingest.py --pdf_folder <path_to_pdf_folder> --chunk_size <chunk_size> --chunk_overlap <overlap_size> --embedding_model <emb_model> --token_limit <token_limit>
 ```
 
-- <path_to_pdf_folder>: directory containing the PDFs, e.g., ./papers (the folder should be placed in the Workspace)
+- <path_to_pdf_folder>: directory containing the PDFs, e.g., ./papers (the folder should be placed in the main folder)
 - <chunk_size>: number of words per chunk (default value is 500)
 - <overlap_size>: number of sentences to overlap between chunks (default value is 3)
 - <emb_model>: the model used for embeddings (must be from openai. default is text-embedding-3-small)
