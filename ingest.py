@@ -26,7 +26,7 @@ def ingest_folder(folder_path, embedding_model, token_limit, chunk_size, chunk_o
             text = extract_text_from_pdf(full_path)
             chunks = chunk_text(text,chunk_size,chunk_overlap) 
             all_chunks.extend(chunks)
-    build_vector_store(all_chunks,embedding_model,token_limit)
+    build_vector_store(all_chunks,embedding_model,token_limit) 
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
