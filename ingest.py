@@ -24,7 +24,7 @@ def ingest_folder(folder_path, embedding_model, token_limit, chunk_size, chunk_o
             full_path = os.path.join(folder_path, filename)
             print(f"Extracting from {filename}...")
             text = extract_text_from_pdf(full_path)
-            chunks = chunk_text(text,chunk_size,chunk_overlap)
+            chunks = chunk_text(text,chunk_size,chunk_overlap) 
             all_chunks.extend(chunks)
     build_vector_store(all_chunks,embedding_model,token_limit)
     
