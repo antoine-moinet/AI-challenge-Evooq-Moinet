@@ -14,7 +14,6 @@ TOKEN_LIMIT = 8192  # for text-embedding-3-small
 
 # define absolute paths for vector database and user defined embedding model
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-VECTOR_DB_PATH = os.path.join(BASE_DIR, "vector_store",'index.faiss')
-VECTOR_DB_PATH2 = os.path.join(BASE_DIR, "vector_store",'chunks.pkl')
-USER_EMB_PATH = os.path.join(BASE_DIR, "embedding_model.txt")
-USER_TOK_LIM_PATH = os.path.join(BASE_DIR, "emb_model_token_limit.txt")
+INDEX_PATH = os.path.join(BASE_DIR, "index_store")
+USER_EMB_PATH = os.path.join(BASE_DIR, "user_model","user_embedding_model.txt")
+USER_TOK_LIM_PATH = os.path.join(BASE_DIR, "user_model","user_emb_mod_token_limit.txt")
